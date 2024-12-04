@@ -55,7 +55,14 @@ class GameRoom extends colyseus_1.Room {
         console.log(`Room created with ID: ${options.room_id}`);
         this.room_id = options.room_id;
         this.realroomId = options.customRoomId;
-        this.botManager = new BotManager_1.BotManager(this, ['Player', 'Banker', 'Tie', 'PPair', 'BPair']);
+        this.botManager = new BotManager_1.BotManager(this, [
+            { place: 'Player', odds: 0.35 },
+            { place: 'Banker', odds: 0.35 },
+            { place: 'Tie', odds: 0.15 },
+            { place: 'PPair', odds: 0.15 },
+            { place: 'BPair', odds: 0.15 },
+            { place: 'BPair', odds: 0.15 }
+        ]);
         this.setMetadata({
             room_id: this.room_id,
             WAIT_TIME,

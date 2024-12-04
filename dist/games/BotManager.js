@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BotManager = void 0;
 const types_1 = require("../types");
+const axios_1 = require("../utils/axios");
 class BotManager {
     constructor(room, places) {
         this.botCount = 0;
@@ -57,16 +58,15 @@ class BotManager {
                 if (bot.isBot && this.status && Math.random() > 0.7) {
                     setTimeout(() => {
                         const randomChipIndex = Math.floor(Math.random() * this.room.chipValues.length);
-                        const randomPlaceIndex = Math.floor(Math.random() * this.places.length);
+                        const randomPlace = (0, axios_1.weightedRandomChoice)(this.places);
                         const chip = this.room.chipValues[randomChipIndex];
-                        const place = this.places[randomPlaceIndex];
-                        if (bot.balance >= chip) {
+                        if (bot.balance >= chip && randomPlace) {
                             bot.balance -= chip;
                             this.bankerAmount += chip;
-                            this.room.Bets.push({ uid: bot.uid, chip: randomChipIndex, place: place });
+                            this.room.Bets.push({ uid: bot.uid, chip: randomChipIndex, place: randomPlace });
                             this.room.broadcast("bet-place", {
                                 chip: randomChipIndex,
-                                place: place,
+                                place: randomPlace,
                                 uid: bot.uid,
                                 balance: bot.balance,
                             });
